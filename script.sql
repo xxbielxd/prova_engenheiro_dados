@@ -1,7 +1,7 @@
 use Banco_dados;
 
--- Antes de rodar vamos adicionar essa coluna ao Ranking
--- Como o rank é por série e Curso, achei muito pertinente ele estár na tabela ranking
+-- Vamos adicionar essa a coluna CodigoCurso ao Ranking
+-- Como o ranking é por Série e Curso, achei muito pertinente ele estár na tabela ranking
 ALTER TABLE Ranking ADD CodigoCurso INT NOT NULL;
 
 
@@ -18,9 +18,9 @@ BEGIN
 
         WITH MediaBolsaMerito AS (
             SELECT
-                -- Esse Case Altera de onde a nota virá para a sua base de cálculo Notas.Media1 ou Notas.MediaFinal, com base no Semestre 1 e 2 respectivamente
+                -- Esse Case Altera de onde a nota virá para a sua base de cálculo, Notas.Media1 ou Notas.MediaFinal, com base no Semestre 1 e 2 respectivamente
                 Notas.CH * ((CASE WHEN Notas.Semestre = 1 THEN Notas.Media1 WHEN Notas.Semestre = 2 THEN Notas.MediaFinal ELSE NULL END))
-                -- Nessa parte eu retorno a soma da carga horária das matérias que o aluno está cursando,
+                -- Nessa parte, eu retorno a soma da carga horária das matérias que o aluno está cursando,
                 -- respeitando a regra de Disciplinas que não entram no calculo de acordo com o semestre
                 / COALESCE(
                     (
@@ -81,8 +81,8 @@ BEGIN
             count(*) as QtdeDisciplina,
             -- usei o round, mas não foi especificado o tipo de arredondamento usado como floor ou ceiling
             ROUND(SUM(MediaBolsaMerito.MediaSemestral),3) as MediaBolsaMerito,
-            -- O dense_rank da rank aos registros ordenado pela média bolsa merito, cada curso e série do curso tem seu próprio rank,
-            -- quando a nota for igual o rank será o mesmo
+            -- O dense_rank da ranking aos registros ordenado pela média bolsa merito, cada curso e série do curso tem seu próprio ranking,
+            -- quando a nota for igual o ranking será o mesmo
             DENSE_RANK() OVER (
                 -- Adicionei esse LEFT, pois na documentação é informado que o semestre é informado pelo primeiro caracter da turma
                 PARTITION BY LEFT(MediaBolsaMerito.Turma, 1), MediaBolsaMerito.CodigoCurso
@@ -156,7 +156,7 @@ END;
 
 -- Pensando no longo prazo, vamos criar alguns indices
 
--- Escolhi o DESC pois acredito que o sistema usará mais frequentemente dados mais recentes em suas funcionalidades
+-- Escolhi o DESC pois acredito que o sistema usará frequentemente dados mais recentes em suas funcionalidades
 -- O que acredito que a longo prazo, manterá o alto desempenho
 
 -- Index RM
@@ -174,8 +174,8 @@ CREATE INDEX idx_codigo_disciplina_notas ON Notas (CodigoDisciplina DESC);
 CREATE INDEX idx_turma_notas ON Notas (Turma ASC);
 CREATE INDEX idx_turma_ranking ON Ranking (Turma ASC);
 
--- Acredito que há mais index para ser criado, mas inicialmente para o nosso proposito está ok.
--- Devemos tomar cuidado na criação de muitos indices, pois invez de ajudar pode atrapalhar, causando lentidão que é a ideia contraria dos indices.
+-- Acredito que há mais index para ser criado, mas inicialmente para o nosso propósito está ok.
+-- Devemos tomar cuidado na criação de muitos indices, pois invés de ajudar pode atrapalhar, causando lentidão que é a ideia contrária dos índices.
 
 -- Vamos executar a procedure
 EXEC InserirRankingMerito;
