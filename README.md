@@ -38,7 +38,7 @@ docker build -t python-sql-server-importer .
 Rode o contêiner para importar os dados do arquivo Excel para o banco de dados:
 
 ```bash
-docker run --rm -v ${PWD}:/app --network teste_sql_sql_network python-sql-server-importer
+docker run --rm -v ${PWD}:/app --network sql_network_teste python-sql-server-importer
 ```
 
 ### 2. Acesso ao Banco de Dados

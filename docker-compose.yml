@@ -20,3 +20,4 @@ volumes:
 networks:
   sql_network:
     driver: bridge
+    name: sql_network_teste
