@@ -1,7 +1,7 @@
 use Banco_dados;
 
 -- Antes de rodar vamos adicionar essa coluna ao Ranking
--- Como o rank é por série e Curso, achei muito pertinente ele está na tabela ranking
+-- Como o rank é por série e Curso, achei muito pertinente ele estár na tabela ranking
 ALTER TABLE Ranking ADD CodigoCurso INT NOT NULL;
 
 
