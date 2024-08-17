@@ -7,7 +7,8 @@ Este projeto foi desenvolvido utilizando Docker para garantir a compatibilidade 
 
 - **Docker**: Para rodar o banco de dados SQL Server e a aplicação de importação de dados.
 - **Python**: Caso você opte por rodar o script manualmente, será necessário ter o Python instalado.
-> **Importante:** Por questões de segurança, o arquivo `notas.xls` não foi versionado no repositório. Certifique-se de colocar o arquivo na pasta com o nome exatamente como `notas.xls` antes de executar os scripts ou os comandos Docker.
+
+<p style="color: red;"><strong>Atenção:</strong> Por questões de segurança, o arquivo <code>notas.xls</code> não foi versionado no repositório. Certifique-se de colocar o arquivo na pasta com o nome exatamente como <code>notas.xls</code> antes de executar os scripts ou os comandos Docker.</p>
 
 ## Instruções para Configuração e Execução
 
