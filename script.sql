@@ -1,3 +1,9 @@
+use Banco_dados;
+
+-- Antes de rodar vamos adicionar essa coluna ao Ranking
+-- Como o rank é por série e Curso, achei muito pertinente ele está na tabela ranking
+ALTER TABLE Ranking ADD CodigoCurso INT NOT NULL;
+
 
 CREATE PROCEDURE InserirRankingMerito
 AS
@@ -148,18 +154,12 @@ BEGIN
     END CATCH
 END;
 
-DROP PROCEDURE InserirRankingMerito;
-
--- Antes de rodar vamos adicionar essa coluna ao Ranking
--- Como o rank é por série e Curso, achei muito pertinente ele está na tabela ranking
-ALTER TABLE Ranking ADD CodigoCurso INT NOT NULL;
-
 -- Pensando no longo prazo, vamos criar alguns indices
 
 -- Escolhi o DESC pois acredito que o sistema usará mais frequentemente dados mais recentes em suas funcionalidades
 -- O que acredito que a longo prazo, manterá o alto desempenho
 
--- Index RM, Escolhi
+-- Index RM
 CREATE INDEX idx_rm_notas ON Notas (RM DESC);
 CREATE INDEX idx_rm_ranking ON Ranking (RM DESC);
 
@@ -169,7 +169,6 @@ CREATE INDEX idx_codigo_curso_ranking ON Ranking (CodigoCurso DESC);
 
 -- Index CodigoDisciplina
 CREATE INDEX idx_codigo_disciplina_notas ON Notas (CodigoDisciplina DESC);
-CREATE INDEX idx_codigo_disciplina_ranking ON Ranking (CodigoDisciplina DESC);
 
 -- Index Turma - Coloquei ASC só para manter o padrão, pois não fará diferença para esse campo o DESC
 CREATE INDEX idx_turma_notas ON Notas (Turma ASC);
@@ -177,7 +176,6 @@ CREATE INDEX idx_turma_ranking ON Ranking (Turma ASC);
 
 -- Acredito que há mais index para ser criado, mas inicialmente para o nosso proposito está ok.
 -- Devemos tomar cuidado na criação de muitos indices, pois invez de ajudar pode atrapalhar, causando lentidão que é a ideia contraria dos indices.
-
 
 -- Vamos executar a procedure
 EXEC InserirRankingMerito;

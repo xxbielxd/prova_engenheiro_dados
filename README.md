@@ -23,6 +23,7 @@ Execute o comando abaixo para levantar o banco de dados e fazer a importação d
 ```bash
 docker-compose up --force-recreate --build
 ```
+<strong>OBS:</strong> Não se esqueça de deixar o console aberto rodando!
 
 ### 2. Acesso ao Banco de Dados
 
