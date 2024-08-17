@@ -14,6 +14,16 @@ services:
       - ./notas.xls:/init/notas.xls
     networks:
       - sql_network
+
+  initdb:
+    build:
+      context: .
+      dockerfile: Dockerfile.initdb
+    depends_on:
+      - sqlserver
+    networks:
+      - sql_network
+
 volumes:
   sqlserver_data:
 

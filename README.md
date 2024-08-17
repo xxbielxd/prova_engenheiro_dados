@@ -16,33 +16,17 @@ Este projeto foi desenvolvido utilizando Docker para garantir a compatibilidade 
 
 Se você ainda não possui um ambiente SQL Server configurado, siga os passos abaixo para configurar o banco de dados e importar os dados automaticamente:
 
-#### 1.1. Levantar o Banco de Dados
+#### 1.1. Levantar o Banco de Dados ( Lembre-se de estar na pasta do projeto )
 
-Execute os comandos abaixo para levantar o banco de dados:
-
-```bash
-docker-compose down; docker-compose up -d  
-```
-
-#### 1.2. Gerar a Imagem para Importação de Dados
-
-Construa a imagem Docker para o processo de importação de dados:
+Execute o comando abaixo para levantar o banco de dados e fazer a importação dos dados:
 
 ```bash
-docker build -t python-sql-server-importer .
-```
-
-#### 1.3. Executar a Importação dos Dados
-
-Rode o contêiner para importar os dados do arquivo Excel para o banco de dados:
-
-```bash
-docker run --rm -v ${PWD}:/app --network sql_network_teste python-sql-server-importer
+docker-compose up --force-recreate --build
 ```
 
 ### 2. Acesso ao Banco de Dados
 
-Após o banco de dados estar configurado e em execução, você pode acessá-lo usando as seguintes credenciais:
+Após o banco de dados estar configurado e em execução e você ter aguardado a importação do dados, você pode acessá-lo usando as seguintes credenciais:
 
 - **IP**: 127.0.0.1
 - **Porta**: 1433
@@ -53,13 +37,13 @@ Após o banco de dados estar configurado e em execução, você pode acessá-lo 
 
 Caso você já tenha um ambiente SQL Server configurado e deseje realizar a importação dos dados manualmente, siga os passos abaixo:
 
-#### 3.1. Criação das Tabelas
+#### 3.1. Criação das Tabelas OBS: ( Passo Necessário apenas se preferir não usar Docker)
 
 O arquivo `init.sql` contém os comandos SQL para a criação das tabelas necessárias. Você pode executar esse script no SQL Server 2022 para preparar o banco de dados.
 
-#### 3.2. Instalação das Dependências Python
+#### 3.2. Instalação das Dependências Python OBS: ( Passo Necessário apenas se preferir não usar Docker)
 
-Caso opte por rodar o script Python manualmente, siga os passos:
+Rode o script Python manualmente, siga os passos:
 
 1. Certifique-se de que o Python está instalado em sua máquina.
 2. Instale as dependências necessárias usando o arquivo `requirements.txt`:

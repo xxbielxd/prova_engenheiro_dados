@@ -1,0 +1,33 @@
+# Use uma imagem base oficial do Python
+FROM python:3.9-slim
+
+# Instalar dependências básicas e adicionar repositório da Microsoft
+RUN apt-get update && apt-get install -y \
+    unixodbc-dev \
+    gnupg2 \
+    curl \
+    gcc \
+    g++ \
+    apt-transport-https \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/10/prod.list -o /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Instalar as dependências Python, incluindo pandas, pyodbc, e xlrd
+RUN pip install pandas pyodbc xlrd
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copiar scripts SQL, Python e o script bash para o contêiner
+COPY init.sql /init.sql
+COPY init_database.sh /init_database.sh
+COPY init.py /app/init.py
+COPY notas.xls /app/notas.xls
+# Garantir que o script bash tenha permissões de execução
+RUN chmod +x /init_database.sh
+
+# Executar o script bash para iniciar o processo
+ENTRYPOINT ["/init_database.sh"]
