@@ -110,7 +110,7 @@ BEGIN
             Ranking
         SET PorcentagemBolsaMerito = ROUND(@porcentagem_bolsa_primeiro / (
                 SELECT
-                    count(*)
+                    COUNT(*)
                 FROM Ranking as sub_ranking
                 WHERE
                     sub_ranking.CodigoCurso = Ranking.CodigoCurso
@@ -123,7 +123,7 @@ BEGIN
             Ranking
         SET PorcentagemBolsaMerito = ROUND(@porcentagem_bolsa_segundo / (
                 SELECT
-                    count(*)
+                    COUNT(*)
                 FROM Ranking as sub_ranking
                 WHERE
                     sub_ranking.CodigoCurso = Ranking.CodigoCurso
