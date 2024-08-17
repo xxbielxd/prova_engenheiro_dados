@@ -21,8 +21,7 @@ Se você ainda não possui um ambiente SQL Server configurado, siga os passos ab
 Execute os comandos abaixo para levantar o banco de dados:
 
 ```bash
-docker-compose down
-docker-compose up -d
+docker-compose down; docker-compose up -d  
 ```
 
 #### 1.2. Gerar a Imagem para Importação de Dados

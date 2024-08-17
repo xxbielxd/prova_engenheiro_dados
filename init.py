@@ -14,11 +14,17 @@ conn_str = (
 conn = pyodbc.connect(conn_str)
 cursor = conn.cursor()
 
+# Executar o script SQL para criar a tabela e configurar o banco de dados
+with open('/app/init.sql', 'r') as sql_file:
+    sql_script = sql_file.read()
+
+# Executar o script SQL
+cursor.execute(sql_script)
+
 # Ler o arquivo Excel
 file_path = r'/app/notas.xls'
 sheet_name = 'Notas'
 df = pd.read_excel(file_path, sheet_name=sheet_name)
-
 
 # Converter todas as colunas numéricas para garantir que os valores sejam válidos
 for col in df.select_dtypes(include=['float', 'int']).columns:
